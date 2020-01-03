@@ -1,7 +1,5 @@
 package com.example.calculator;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +12,9 @@ public class MainActivity extends Activity {
     TextView txtResult;
     Animation zoomIn;
 
-    String string;
+    String operator = "";
+    float nmbr1,nmbr2;
+    boolean parcham1,parcham2 = false;
 
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0;
     Button btnDev,btnMul,btnSub,btnAdd,btnC,btnAc,btnEq,btnPolar,btnDot,btnPrcnt;
@@ -70,14 +70,118 @@ public class MainActivity extends Activity {
         showNumber(8);
         else if (id == R.id.btn9)
         showNumber(9);
+        else if (id == R.id.btnAdd){
+            nmbr1 = Float.parseFloat(txtResult.getText().toString().trim());
+            operator = "+";
+            txtResult.setText("0.0");
+            parcham2 = false;
+
+        }
+        else if (id == R.id.btnSub){
+            nmbr1 = Float.parseFloat(txtResult.getText().toString().trim());
+            operator = "-";
+            txtResult.setText("0.0");
+            parcham2 = false;
+
+        }
+        else if (id == R.id.btnMul){
+            nmbr1 = Float.parseFloat(txtResult.getText().toString().trim());
+            operator = "x";
+            txtResult.setText("0.0");
+            parcham2 = false;
+
+        }
+        else if (id == R.id.btnDev){
+            nmbr1 = Float.parseFloat(txtResult.getText().toString().trim());
+            operator = "/";
+            txtResult.setText("0.0");
+            parcham2 = false;
+
+        }
+
+        else if (id == R.id.btnEq){
+
+            nmbr2 = Float.parseFloat(txtResult.getText().toString());
+            float res = 0;
+            if (operator.equals("+"))
+                res = nmbr1 + nmbr2;
+            if (operator.equals("-"))
+                res = nmbr1 - nmbr2;
+            if (operator.equals("x"))
+                res = nmbr1 * nmbr2;
+            if (operator.equals("/"))
+                res = nmbr1 / nmbr2;
+
+            txtResult.setText(res+ "");
+
+            nmbr1 = nmbr2 = 0;
+            parcham1 = true;
+            parcham2 = true;
+
+
+        }
+
+        else if (id == R.id.btnAc) {
+            nmbr1 = nmbr2 = 0;
+            txtResult.setText("0.0");
+            parcham2 = false;
+        }
+
+        else if (id == R.id.btnC)
+        { parcham2 = false;
+            if (nmbr1 != 0){
+                nmbr2 = 0;
+                txtResult.setText("0.0");
+            }
+            else nmbr1 = 0;
+            txtResult.setText("0.0");
+        }
+
+        else if (id == R.id.btnPolar)
+        { Float fl = Float.parseFloat(txtResult.getText().toString());
+            if (fl != 0) {
+
+            fl *= -1 ;
+            txtResult.setText(fl + "");
+            }
+
+        }
+
+        else if (id == R.id.btnDot) {
+
+            String st = txtResult.getText().toString().trim();
+
+            if ( parcham2 == false && !st.equalsIgnoreCase("0.0")) {
+                txtResult.startAnimation(zoomIn);
+                txtResult.append(".");
+                parcham2 = true;
+
+            }else if (parcham2 == false)
+                txtResult.setText("0.");
+            parcham2 = true;
+        }
+
+
+
+
+
 
 
     }
 
     public void showNumber(int number){
+        parcham2 = false;
+
+        String string;
 
         string = txtResult.getText().toString();
         txtResult.startAnimation(zoomIn);
+
+        if (parcham1 == true) {
+            string = "0.0";
+            parcham1 = false;
+        }
+
 
         if (string.equals("0.0") )
             txtResult.setText(number + "");
