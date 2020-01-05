@@ -7,6 +7,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     TextView txtResult;
@@ -14,7 +15,7 @@ public class MainActivity extends Activity {
 
     String operator = "";
     float nmbr1,nmbr2;
-    boolean parcham1,parcham2 = false;
+    boolean parcham1,parcham2,parcham3 = false;
 
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0;
     Button btnDev,btnMul,btnSub,btnAdd,btnC,btnAc,btnEq,btnPolar,btnDot,btnPrcnt;
@@ -75,6 +76,7 @@ public class MainActivity extends Activity {
             operator = "+";
             txtResult.setText("0.0");
             parcham2 = false;
+            parcham3 = true;
 
         }
         else if (id == R.id.btnSub){
@@ -82,6 +84,7 @@ public class MainActivity extends Activity {
             operator = "-";
             txtResult.setText("0.0");
             parcham2 = false;
+            parcham3 = true;
 
         }
         else if (id == R.id.btnMul){
@@ -89,6 +92,7 @@ public class MainActivity extends Activity {
             operator = "x";
             txtResult.setText("0.0");
             parcham2 = false;
+            parcham3 = true;
 
         }
         else if (id == R.id.btnDev){
@@ -96,6 +100,7 @@ public class MainActivity extends Activity {
             operator = "/";
             txtResult.setText("0.0");
             parcham2 = false;
+            parcham3 = true;
 
         }
 
@@ -117,6 +122,7 @@ public class MainActivity extends Activity {
             nmbr1 = nmbr2 = 0;
             parcham1 = true;
             parcham2 = true;
+            parcham3 = false;
 
 
         }
@@ -125,12 +131,14 @@ public class MainActivity extends Activity {
             nmbr1 = nmbr2 = 0;
             txtResult.setText("0.0");
             parcham2 = false;
+            parcham3 = false;
         }
 
         else if (id == R.id.btnC)
         { parcham2 = false;
             if (nmbr1 != 0){
                 nmbr2 = 0;
+                parcham3 = false;
                 txtResult.setText("0.0");
             }
             else nmbr1 = 0;
@@ -160,13 +168,19 @@ public class MainActivity extends Activity {
                 txtResult.setText("0.");
             parcham2 = true;
         }
+        else if (id == R.id.btnPrcnt) {
 
 
+            if (parcham3 == true) {
+                nmbr2 = Float.parseFloat(txtResult.getText().toString());
 
+                nmbr2 *= 0.01;
 
+            } else //if (parcham3 == false)
+                nmbr1 = Float.parseFloat(txtResult.getText().toString());
+            nmbr1 *= 0.01;
 
-
-
+        }
     }
 
     public void showNumber(int number){
